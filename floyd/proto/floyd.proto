@@ -11,6 +11,7 @@ enum Type {
   kRequestVote = 8;
   kAppendEntries = 9;
   kServerStatus = 10;
+  kAddServer = 11;
 }
 
 
@@ -68,6 +69,11 @@ message CmdRequest {
     optional int32 port = 4;
   }
   optional ServerStatus server_status = 6;
+  message AddServer {
+    required bytes new_server_ip = 1;
+    required int32 new_server_port = 2;
+  }
+  optional AddServer add_server = 7;
 }
 
 enum StatusCode {
@@ -79,17 +85,10 @@ enum StatusCode {
 message CmdResponse {
   required Type type = 1;
   optional StatusCode code = 2;
-  optional bytes msg = 3;
-
   message Kv {
     optional bytes value = 1;
   }
   optional Kv kv = 4;
-
-  message Kvs {
-    repeated Kv kv = 1;
-  }
-  optional Kvs kvs = 5;
 
   message RequestVoteResponse {
     required uint64 term = 1;
@@ -117,4 +116,11 @@ message CmdResponse {
     optional uint64 last_applied = 10;
   }
   optional ServerStatus server_status = 8;
+
+  message AddServerResponse {
+    required int32 status = 1;
+    required bytes leader_hint_ip = 2;
+    required bytes leader_hint_port = 3;
+  }
+  optional AddServerResponse add_server_res = 9;
 }

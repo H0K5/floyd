@@ -80,7 +80,7 @@ int main(int argc, char** argv)
     } else {
       entry.ParseFromString(iter->value().ToString());
       uint64_t num = BitStrToUint(iter->key().ToString());
-      printf("index %lu entry term: %lu key %s value %s\n", num, entry.term(), entry.key().c_str(), entry.value().c_str());
+      printf("index %lu entry term: %lu type: %d key %s value %s\n", num, entry.term(), entry.optype(), entry.key().c_str(), entry.value().c_str());
     }
     // std::cout << "res " << iter->key().ToString() << ": " << iter->value().ToString() << std::endl;
   }

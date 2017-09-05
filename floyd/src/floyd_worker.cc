@@ -39,28 +39,31 @@ int FloydWorkerConn::DealMessage() {
   set_is_reply(true);
 
   switch (request_.type()) {
-    case Type::kWrite:
-    case Type::kDelete:
-    case Type::kRead: {
-      floyd_->DoCommand(request_, &response_);
-      break;
-    }
-    case Type::kDirtyWrite:
-    case Type::kServerStatus: {
-      floyd_->ReplyExecuteDirtyCommand(request_, &response_);
-      break;
-    }
-    case Type::kRequestVote: {
-      floyd_->ReplyRequestVote(request_, &response_);
-      break;
-    }
-    case Type::kAppendEntries: {
-      floyd_->ReplyAppendEntries(request_, &response_);
-      break;
-    }
-    default:
-      LOGV(WARN_LEVEL, floyd_->info_log_, "unknown cmd type");
-      return -1;
+  case Type::kWrite:
+  case Type::kDelete:
+  case Type::kRead: {
+    floyd_->DoCommand(request_, &response_);
+    break;
+  }
+  case Type::kDirtyWrite:
+  case Type::kServerStatus: {
+    floyd_->ReplyExecuteDirtyCommand(request_, &response_);
+    break;
+  }
+  case Type::kRequestVote: {
+    floyd_->ReplyRequestVote(request_, &response_);
+    break;
+  }
+  case Type::kAppendEntries: {
+    floyd_->ReplyAppendEntries(request_, &response_);
+    break;
+  }
+  case Type::kAddServer: {
+    floyd_->ReplyAddServer(request_, &response_);
+  }
+  default:
+    LOGV(WARN_LEVEL, floyd_->info_log_, "unknown cmd type");
+    return -1;
   }
 
   res_ = &response_;

@@ -28,12 +28,16 @@ class Floyd  {
   virtual Status Delete(const std::string& key) = 0;
   virtual Status Read(const std::string& key, std::string* value) = 0;
   virtual Status DirtyRead(const std::string& key, std::string* value) = 0;
+  virtual Status AddServer(const std::string& new_server) = 0; 
 
   // return true if leader has been elected
   virtual bool GetLeader(std::string* ip_port) = 0;
   virtual bool GetLeader(std::string* ip, int* port) = 0;
   virtual bool HasLeader() = 0;
   virtual bool GetAllNodes(std::vector<std::string>* nodes) = 0;
+  // we don't advice to use isleader in product environment
+  // since the operation after isleader can not promise that this
+  // node is the leader. we will support Lock() operation in the feature
   virtual bool IsLeader() = 0;
 
   // used for debug

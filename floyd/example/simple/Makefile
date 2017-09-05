@@ -55,7 +55,6 @@ LIBS = -lfloyd \
 			 -lrt \
 			 -lssl \
 			 -lcrypto \
-			 -lprofiler \
 			 -lpthread
 
 INCLUDE_PATH = -I../../../ \

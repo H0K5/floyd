@@ -157,6 +157,10 @@ void FloydPrimary::NoticePeerTask(TaskType type) {
           options_.local_ip.c_str(), options_.local_port, peer.second->peer_addr().c_str(), context_->current_term);
       peer.second->AddAppendEntriesTask();
       break;
+    case kAddServer:
+      LOGV(DEBUG_LEVEL, info_log_, "FloydPrimary::NoticePeerTask server %s:%d Add addServer Task to queue to %s at term %d",
+          options_.local_ip.c_str(), options_.local_port, peer.second->peer_addr().c_str(), context_->current_term);
+      peer.second->AddAddServerTask();
     default:
       LOGV(WARN_LEVEL, info_log_, "Error TaskType to notice peer");
     }

@@ -26,7 +26,7 @@ class FloydApply;
 class Peer;
 typedef std::map<std::string, Peer*> PeersSet;
 
-class Peer  {
+class Peer {
  public:
   Peer(std::string server, FloydContext* context, FloydPrimary* primary, RaftMeta* raft_meta,
       RaftLog* raft_log, ClientPool* pool, FloydApply* apply, const Options& options, Logger* info_log);
@@ -40,6 +40,8 @@ class Peer  {
   void AddAppendEntriesTask();
   void AddRequestVoteTask();
 
+  void AddAddServerTask();
+
   /*
    * the two main RPC call in raft consensus protocol is here
    * AppendEntriesRPC
@@ -51,6 +53,9 @@ class Peer  {
   // Request Vote
   static void RequestVoteRPCWrapper(void *arg);
   void RequestVoteRPC();
+
+  static void AddServerRPCWrapper(void *arg);
+  void AddServerRPC();
 
   uint64_t GetMatchIndex();
 
@@ -105,4 +110,4 @@ class Peer  {
 };
 
 }  // namespace floyd
-#endif   // FLOYD_SRC_FLOYD_PEER_THREAD_H_
+#endif  // FLOYD_SRC_FLOYD_PEER_THREAD_H_

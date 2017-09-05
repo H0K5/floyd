@@ -41,12 +41,13 @@ class CmdRequest_User;
 class CmdRequest_RequestVote;
 class CmdRequest_AppendEntries;
 class CmdRequest_ServerStatus;
+class CmdRequest_AddServer;
 class CmdResponse;
 class CmdResponse_Kv;
-class CmdResponse_Kvs;
 class CmdResponse_RequestVoteResponse;
 class CmdResponse_AppendEntriesResponse;
 class CmdResponse_ServerStatus;
+class CmdResponse_AddServerResponse;
 
 enum Entry_OpType {
   Entry_OpType_kRead = 0,
@@ -75,11 +76,12 @@ enum Type {
   kDelete = 3,
   kRequestVote = 8,
   kAppendEntries = 9,
-  kServerStatus = 10
+  kServerStatus = 10,
+  kAddServer = 11
 };
 bool Type_IsValid(int value);
 const Type Type_MIN = kRead;
-const Type Type_MAX = kServerStatus;
+const Type Type_MAX = kAddServer;
 const int Type_ARRAYSIZE = Type_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Type_descriptor();
@@ -641,10 +643,17 @@ class CmdRequest_AppendEntries : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required bytes ip = 1;
+  // required uint64 term = 1;
+  inline bool has_term() const;
+  inline void clear_term();
+  static const int kTermFieldNumber = 1;
+  inline ::google::protobuf::uint64 term() const;
+  inline void set_term(::google::protobuf::uint64 value);
+
+  // required bytes ip = 2;
   inline bool has_ip() const;
   inline void clear_ip();
-  static const int kIpFieldNumber = 1;
+  static const int kIpFieldNumber = 2;
   inline const ::std::string& ip() const;
   inline void set_ip(const ::std::string& value);
   inline void set_ip(const char* value);
@@ -653,19 +662,12 @@ class CmdRequest_AppendEntries : public ::google::protobuf::Message {
   inline ::std::string* release_ip();
   inline void set_allocated_ip(::std::string* ip);
 
-  // required int32 port = 2;
+  // required int32 port = 3;
   inline bool has_port() const;
   inline void clear_port();
-  static const int kPortFieldNumber = 2;
+  static const int kPortFieldNumber = 3;
   inline ::google::protobuf::int32 port() const;
   inline void set_port(::google::protobuf::int32 value);
-
-  // required uint64 term = 3;
-  inline bool has_term() const;
-  inline void clear_term();
-  static const int kTermFieldNumber = 3;
-  inline ::google::protobuf::uint64 term() const;
-  inline void set_term(::google::protobuf::uint64 value);
 
   // required uint64 prev_log_index = 4;
   inline bool has_prev_log_index() const;
@@ -702,12 +704,12 @@ class CmdRequest_AppendEntries : public ::google::protobuf::Message {
 
   // @@protoc_insertion_point(class_scope:floyd.CmdRequest.AppendEntries)
  private:
+  inline void set_has_term();
+  inline void clear_has_term();
   inline void set_has_ip();
   inline void clear_has_ip();
   inline void set_has_port();
   inline void clear_has_port();
-  inline void set_has_term();
-  inline void clear_has_term();
   inline void set_has_prev_log_index();
   inline void clear_has_prev_log_index();
   inline void set_has_prev_log_term();
@@ -717,8 +719,8 @@ class CmdRequest_AppendEntries : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::std::string* ip_;
   ::google::protobuf::uint64 term_;
+  ::std::string* ip_;
   ::google::protobuf::uint64 prev_log_index_;
   ::google::protobuf::uint64 prev_log_term_;
   ::google::protobuf::uint64 leader_commit_;
@@ -854,6 +856,103 @@ class CmdRequest_ServerStatus : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class CmdRequest_AddServer : public ::google::protobuf::Message {
+ public:
+  CmdRequest_AddServer();
+  virtual ~CmdRequest_AddServer();
+
+  CmdRequest_AddServer(const CmdRequest_AddServer& from);
+
+  inline CmdRequest_AddServer& operator=(const CmdRequest_AddServer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CmdRequest_AddServer& default_instance();
+
+  void Swap(CmdRequest_AddServer* other);
+
+  // implements Message ----------------------------------------------
+
+  CmdRequest_AddServer* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CmdRequest_AddServer& from);
+  void MergeFrom(const CmdRequest_AddServer& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required bytes new_server_ip = 1;
+  inline bool has_new_server_ip() const;
+  inline void clear_new_server_ip();
+  static const int kNewServerIpFieldNumber = 1;
+  inline const ::std::string& new_server_ip() const;
+  inline void set_new_server_ip(const ::std::string& value);
+  inline void set_new_server_ip(const char* value);
+  inline void set_new_server_ip(const void* value, size_t size);
+  inline ::std::string* mutable_new_server_ip();
+  inline ::std::string* release_new_server_ip();
+  inline void set_allocated_new_server_ip(::std::string* new_server_ip);
+
+  // required int32 new_server_port = 2;
+  inline bool has_new_server_port() const;
+  inline void clear_new_server_port();
+  static const int kNewServerPortFieldNumber = 2;
+  inline ::google::protobuf::int32 new_server_port() const;
+  inline void set_new_server_port(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:floyd.CmdRequest.AddServer)
+ private:
+  inline void set_has_new_server_ip();
+  inline void clear_has_new_server_ip();
+  inline void set_has_new_server_port();
+  inline void clear_has_new_server_port();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* new_server_ip_;
+  ::google::protobuf::int32 new_server_port_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_floyd_2eproto();
+  friend void protobuf_AssignDesc_floyd_2eproto();
+  friend void protobuf_ShutdownFile_floyd_2eproto();
+
+  void InitAsDefaultInstance();
+  static CmdRequest_AddServer* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class CmdRequest : public ::google::protobuf::Message {
  public:
   CmdRequest();
@@ -911,6 +1010,7 @@ class CmdRequest : public ::google::protobuf::Message {
   typedef CmdRequest_RequestVote RequestVote;
   typedef CmdRequest_AppendEntries AppendEntries;
   typedef CmdRequest_ServerStatus ServerStatus;
+  typedef CmdRequest_AddServer AddServer;
 
   // accessors -------------------------------------------------------
 
@@ -966,6 +1066,15 @@ class CmdRequest : public ::google::protobuf::Message {
   inline ::floyd::CmdRequest_ServerStatus* release_server_status();
   inline void set_allocated_server_status(::floyd::CmdRequest_ServerStatus* server_status);
 
+  // optional .floyd.CmdRequest.AddServer add_server = 7;
+  inline bool has_add_server() const;
+  inline void clear_add_server();
+  static const int kAddServerFieldNumber = 7;
+  inline const ::floyd::CmdRequest_AddServer& add_server() const;
+  inline ::floyd::CmdRequest_AddServer* mutable_add_server();
+  inline ::floyd::CmdRequest_AddServer* release_add_server();
+  inline void set_allocated_add_server(::floyd::CmdRequest_AddServer* add_server);
+
   // @@protoc_insertion_point(class_scope:floyd.CmdRequest)
  private:
   inline void set_has_type();
@@ -980,6 +1089,8 @@ class CmdRequest : public ::google::protobuf::Message {
   inline void clear_has_append_entries();
   inline void set_has_server_status();
   inline void clear_has_server_status();
+  inline void set_has_add_server();
+  inline void clear_has_add_server();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -988,10 +1099,11 @@ class CmdRequest : public ::google::protobuf::Message {
   ::floyd::CmdRequest_RequestVote* request_vote_;
   ::floyd::CmdRequest_AppendEntries* append_entries_;
   ::floyd::CmdRequest_ServerStatus* server_status_;
+  ::floyd::CmdRequest_AddServer* add_server_;
   int type_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   friend void  protobuf_AddDesc_floyd_2eproto();
   friend void protobuf_AssignDesc_floyd_2eproto();
@@ -1086,91 +1198,6 @@ class CmdResponse_Kv : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static CmdResponse_Kv* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class CmdResponse_Kvs : public ::google::protobuf::Message {
- public:
-  CmdResponse_Kvs();
-  virtual ~CmdResponse_Kvs();
-
-  CmdResponse_Kvs(const CmdResponse_Kvs& from);
-
-  inline CmdResponse_Kvs& operator=(const CmdResponse_Kvs& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const CmdResponse_Kvs& default_instance();
-
-  void Swap(CmdResponse_Kvs* other);
-
-  // implements Message ----------------------------------------------
-
-  CmdResponse_Kvs* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const CmdResponse_Kvs& from);
-  void MergeFrom(const CmdResponse_Kvs& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .floyd.CmdResponse.Kv kv = 1;
-  inline int kv_size() const;
-  inline void clear_kv();
-  static const int kKvFieldNumber = 1;
-  inline const ::floyd::CmdResponse_Kv& kv(int index) const;
-  inline ::floyd::CmdResponse_Kv* mutable_kv(int index);
-  inline ::floyd::CmdResponse_Kv* add_kv();
-  inline const ::google::protobuf::RepeatedPtrField< ::floyd::CmdResponse_Kv >&
-      kv() const;
-  inline ::google::protobuf::RepeatedPtrField< ::floyd::CmdResponse_Kv >*
-      mutable_kv();
-
-  // @@protoc_insertion_point(class_scope:floyd.CmdResponse.Kvs)
- private:
-
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
-  ::google::protobuf::RepeatedPtrField< ::floyd::CmdResponse_Kv > kv_;
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
-
-  friend void  protobuf_AddDesc_floyd_2eproto();
-  friend void protobuf_AssignDesc_floyd_2eproto();
-  friend void protobuf_ShutdownFile_floyd_2eproto();
-
-  void InitAsDefaultInstance();
-  static CmdResponse_Kvs* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1555,6 +1582,118 @@ class CmdResponse_ServerStatus : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class CmdResponse_AddServerResponse : public ::google::protobuf::Message {
+ public:
+  CmdResponse_AddServerResponse();
+  virtual ~CmdResponse_AddServerResponse();
+
+  CmdResponse_AddServerResponse(const CmdResponse_AddServerResponse& from);
+
+  inline CmdResponse_AddServerResponse& operator=(const CmdResponse_AddServerResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CmdResponse_AddServerResponse& default_instance();
+
+  void Swap(CmdResponse_AddServerResponse* other);
+
+  // implements Message ----------------------------------------------
+
+  CmdResponse_AddServerResponse* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CmdResponse_AddServerResponse& from);
+  void MergeFrom(const CmdResponse_AddServerResponse& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 status = 1;
+  inline bool has_status() const;
+  inline void clear_status();
+  static const int kStatusFieldNumber = 1;
+  inline ::google::protobuf::int32 status() const;
+  inline void set_status(::google::protobuf::int32 value);
+
+  // required bytes leader_hint_ip = 2;
+  inline bool has_leader_hint_ip() const;
+  inline void clear_leader_hint_ip();
+  static const int kLeaderHintIpFieldNumber = 2;
+  inline const ::std::string& leader_hint_ip() const;
+  inline void set_leader_hint_ip(const ::std::string& value);
+  inline void set_leader_hint_ip(const char* value);
+  inline void set_leader_hint_ip(const void* value, size_t size);
+  inline ::std::string* mutable_leader_hint_ip();
+  inline ::std::string* release_leader_hint_ip();
+  inline void set_allocated_leader_hint_ip(::std::string* leader_hint_ip);
+
+  // required bytes leader_hint_port = 3;
+  inline bool has_leader_hint_port() const;
+  inline void clear_leader_hint_port();
+  static const int kLeaderHintPortFieldNumber = 3;
+  inline const ::std::string& leader_hint_port() const;
+  inline void set_leader_hint_port(const ::std::string& value);
+  inline void set_leader_hint_port(const char* value);
+  inline void set_leader_hint_port(const void* value, size_t size);
+  inline ::std::string* mutable_leader_hint_port();
+  inline ::std::string* release_leader_hint_port();
+  inline void set_allocated_leader_hint_port(::std::string* leader_hint_port);
+
+  // @@protoc_insertion_point(class_scope:floyd.CmdResponse.AddServerResponse)
+ private:
+  inline void set_has_status();
+  inline void clear_has_status();
+  inline void set_has_leader_hint_ip();
+  inline void clear_has_leader_hint_ip();
+  inline void set_has_leader_hint_port();
+  inline void clear_has_leader_hint_port();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* leader_hint_ip_;
+  ::std::string* leader_hint_port_;
+  ::google::protobuf::int32 status_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  friend void  protobuf_AddDesc_floyd_2eproto();
+  friend void protobuf_AssignDesc_floyd_2eproto();
+  friend void protobuf_ShutdownFile_floyd_2eproto();
+
+  void InitAsDefaultInstance();
+  static CmdResponse_AddServerResponse* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class CmdResponse : public ::google::protobuf::Message {
  public:
   CmdResponse();
@@ -1608,10 +1747,10 @@ class CmdResponse : public ::google::protobuf::Message {
   // nested types ----------------------------------------------------
 
   typedef CmdResponse_Kv Kv;
-  typedef CmdResponse_Kvs Kvs;
   typedef CmdResponse_RequestVoteResponse RequestVoteResponse;
   typedef CmdResponse_AppendEntriesResponse AppendEntriesResponse;
   typedef CmdResponse_ServerStatus ServerStatus;
+  typedef CmdResponse_AddServerResponse AddServerResponse;
 
   // accessors -------------------------------------------------------
 
@@ -1629,18 +1768,6 @@ class CmdResponse : public ::google::protobuf::Message {
   inline ::floyd::StatusCode code() const;
   inline void set_code(::floyd::StatusCode value);
 
-  // optional bytes msg = 3;
-  inline bool has_msg() const;
-  inline void clear_msg();
-  static const int kMsgFieldNumber = 3;
-  inline const ::std::string& msg() const;
-  inline void set_msg(const ::std::string& value);
-  inline void set_msg(const char* value);
-  inline void set_msg(const void* value, size_t size);
-  inline ::std::string* mutable_msg();
-  inline ::std::string* release_msg();
-  inline void set_allocated_msg(::std::string* msg);
-
   // optional .floyd.CmdResponse.Kv kv = 4;
   inline bool has_kv() const;
   inline void clear_kv();
@@ -1649,15 +1776,6 @@ class CmdResponse : public ::google::protobuf::Message {
   inline ::floyd::CmdResponse_Kv* mutable_kv();
   inline ::floyd::CmdResponse_Kv* release_kv();
   inline void set_allocated_kv(::floyd::CmdResponse_Kv* kv);
-
-  // optional .floyd.CmdResponse.Kvs kvs = 5;
-  inline bool has_kvs() const;
-  inline void clear_kvs();
-  static const int kKvsFieldNumber = 5;
-  inline const ::floyd::CmdResponse_Kvs& kvs() const;
-  inline ::floyd::CmdResponse_Kvs* mutable_kvs();
-  inline ::floyd::CmdResponse_Kvs* release_kvs();
-  inline void set_allocated_kvs(::floyd::CmdResponse_Kvs* kvs);
 
   // optional .floyd.CmdResponse.RequestVoteResponse request_vote_res = 6;
   inline bool has_request_vote_res() const;
@@ -1686,38 +1804,44 @@ class CmdResponse : public ::google::protobuf::Message {
   inline ::floyd::CmdResponse_ServerStatus* release_server_status();
   inline void set_allocated_server_status(::floyd::CmdResponse_ServerStatus* server_status);
 
+  // optional .floyd.CmdResponse.AddServerResponse add_server_res = 9;
+  inline bool has_add_server_res() const;
+  inline void clear_add_server_res();
+  static const int kAddServerResFieldNumber = 9;
+  inline const ::floyd::CmdResponse_AddServerResponse& add_server_res() const;
+  inline ::floyd::CmdResponse_AddServerResponse* mutable_add_server_res();
+  inline ::floyd::CmdResponse_AddServerResponse* release_add_server_res();
+  inline void set_allocated_add_server_res(::floyd::CmdResponse_AddServerResponse* add_server_res);
+
   // @@protoc_insertion_point(class_scope:floyd.CmdResponse)
  private:
   inline void set_has_type();
   inline void clear_has_type();
   inline void set_has_code();
   inline void clear_has_code();
-  inline void set_has_msg();
-  inline void clear_has_msg();
   inline void set_has_kv();
   inline void clear_has_kv();
-  inline void set_has_kvs();
-  inline void clear_has_kvs();
   inline void set_has_request_vote_res();
   inline void clear_has_request_vote_res();
   inline void set_has_append_entries_res();
   inline void clear_has_append_entries_res();
   inline void set_has_server_status();
   inline void clear_has_server_status();
+  inline void set_has_add_server_res();
+  inline void clear_has_add_server_res();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   int type_;
   int code_;
-  ::std::string* msg_;
   ::floyd::CmdResponse_Kv* kv_;
-  ::floyd::CmdResponse_Kvs* kvs_;
   ::floyd::CmdResponse_RequestVoteResponse* request_vote_res_;
   ::floyd::CmdResponse_AppendEntriesResponse* append_entries_res_;
   ::floyd::CmdResponse_ServerStatus* server_status_;
+  ::floyd::CmdResponse_AddServerResponse* add_server_res_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   friend void  protobuf_AddDesc_floyd_2eproto();
   friend void protobuf_AssignDesc_floyd_2eproto();
@@ -2324,15 +2448,37 @@ inline void CmdRequest_RequestVote::set_last_log_term(::google::protobuf::uint64
 
 // CmdRequest_AppendEntries
 
-// required bytes ip = 1;
-inline bool CmdRequest_AppendEntries::has_ip() const {
+// required uint64 term = 1;
+inline bool CmdRequest_AppendEntries::has_term() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void CmdRequest_AppendEntries::set_has_ip() {
+inline void CmdRequest_AppendEntries::set_has_term() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void CmdRequest_AppendEntries::clear_has_ip() {
+inline void CmdRequest_AppendEntries::clear_has_term() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void CmdRequest_AppendEntries::clear_term() {
+  term_ = GOOGLE_ULONGLONG(0);
+  clear_has_term();
+}
+inline ::google::protobuf::uint64 CmdRequest_AppendEntries::term() const {
+  return term_;
+}
+inline void CmdRequest_AppendEntries::set_term(::google::protobuf::uint64 value) {
+  set_has_term();
+  term_ = value;
+}
+
+// required bytes ip = 2;
+inline bool CmdRequest_AppendEntries::has_ip() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CmdRequest_AppendEntries::set_has_ip() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CmdRequest_AppendEntries::clear_has_ip() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void CmdRequest_AppendEntries::clear_ip() {
   if (ip_ != &::google::protobuf::internal::kEmptyString) {
@@ -2394,15 +2540,15 @@ inline void CmdRequest_AppendEntries::set_allocated_ip(::std::string* ip) {
   }
 }
 
-// required int32 port = 2;
+// required int32 port = 3;
 inline bool CmdRequest_AppendEntries::has_port() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void CmdRequest_AppendEntries::set_has_port() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void CmdRequest_AppendEntries::clear_has_port() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void CmdRequest_AppendEntries::clear_port() {
   port_ = 0;
@@ -2414,28 +2560,6 @@ inline ::google::protobuf::int32 CmdRequest_AppendEntries::port() const {
 inline void CmdRequest_AppendEntries::set_port(::google::protobuf::int32 value) {
   set_has_port();
   port_ = value;
-}
-
-// required uint64 term = 3;
-inline bool CmdRequest_AppendEntries::has_term() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void CmdRequest_AppendEntries::set_has_term() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void CmdRequest_AppendEntries::clear_has_term() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void CmdRequest_AppendEntries::clear_term() {
-  term_ = GOOGLE_ULONGLONG(0);
-  clear_has_term();
-}
-inline ::google::protobuf::uint64 CmdRequest_AppendEntries::term() const {
-  return term_;
-}
-inline void CmdRequest_AppendEntries::set_term(::google::protobuf::uint64 value) {
-  set_has_term();
-  term_ = value;
 }
 
 // required uint64 prev_log_index = 4;
@@ -2671,6 +2795,102 @@ inline void CmdRequest_ServerStatus::set_port(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
+// CmdRequest_AddServer
+
+// required bytes new_server_ip = 1;
+inline bool CmdRequest_AddServer::has_new_server_ip() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CmdRequest_AddServer::set_has_new_server_ip() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CmdRequest_AddServer::clear_has_new_server_ip() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CmdRequest_AddServer::clear_new_server_ip() {
+  if (new_server_ip_ != &::google::protobuf::internal::kEmptyString) {
+    new_server_ip_->clear();
+  }
+  clear_has_new_server_ip();
+}
+inline const ::std::string& CmdRequest_AddServer::new_server_ip() const {
+  return *new_server_ip_;
+}
+inline void CmdRequest_AddServer::set_new_server_ip(const ::std::string& value) {
+  set_has_new_server_ip();
+  if (new_server_ip_ == &::google::protobuf::internal::kEmptyString) {
+    new_server_ip_ = new ::std::string;
+  }
+  new_server_ip_->assign(value);
+}
+inline void CmdRequest_AddServer::set_new_server_ip(const char* value) {
+  set_has_new_server_ip();
+  if (new_server_ip_ == &::google::protobuf::internal::kEmptyString) {
+    new_server_ip_ = new ::std::string;
+  }
+  new_server_ip_->assign(value);
+}
+inline void CmdRequest_AddServer::set_new_server_ip(const void* value, size_t size) {
+  set_has_new_server_ip();
+  if (new_server_ip_ == &::google::protobuf::internal::kEmptyString) {
+    new_server_ip_ = new ::std::string;
+  }
+  new_server_ip_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CmdRequest_AddServer::mutable_new_server_ip() {
+  set_has_new_server_ip();
+  if (new_server_ip_ == &::google::protobuf::internal::kEmptyString) {
+    new_server_ip_ = new ::std::string;
+  }
+  return new_server_ip_;
+}
+inline ::std::string* CmdRequest_AddServer::release_new_server_ip() {
+  clear_has_new_server_ip();
+  if (new_server_ip_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = new_server_ip_;
+    new_server_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CmdRequest_AddServer::set_allocated_new_server_ip(::std::string* new_server_ip) {
+  if (new_server_ip_ != &::google::protobuf::internal::kEmptyString) {
+    delete new_server_ip_;
+  }
+  if (new_server_ip) {
+    set_has_new_server_ip();
+    new_server_ip_ = new_server_ip;
+  } else {
+    clear_has_new_server_ip();
+    new_server_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int32 new_server_port = 2;
+inline bool CmdRequest_AddServer::has_new_server_port() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CmdRequest_AddServer::set_has_new_server_port() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CmdRequest_AddServer::clear_has_new_server_port() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CmdRequest_AddServer::clear_new_server_port() {
+  new_server_port_ = 0;
+  clear_has_new_server_port();
+}
+inline ::google::protobuf::int32 CmdRequest_AddServer::new_server_port() const {
+  return new_server_port_;
+}
+inline void CmdRequest_AddServer::set_new_server_port(::google::protobuf::int32 value) {
+  set_has_new_server_port();
+  new_server_port_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // CmdRequest
 
 // required .floyd.Type type = 1;
@@ -2886,6 +3106,44 @@ inline void CmdRequest::set_allocated_server_status(::floyd::CmdRequest_ServerSt
   }
 }
 
+// optional .floyd.CmdRequest.AddServer add_server = 7;
+inline bool CmdRequest::has_add_server() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void CmdRequest::set_has_add_server() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void CmdRequest::clear_has_add_server() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void CmdRequest::clear_add_server() {
+  if (add_server_ != NULL) add_server_->::floyd::CmdRequest_AddServer::Clear();
+  clear_has_add_server();
+}
+inline const ::floyd::CmdRequest_AddServer& CmdRequest::add_server() const {
+  return add_server_ != NULL ? *add_server_ : *default_instance_->add_server_;
+}
+inline ::floyd::CmdRequest_AddServer* CmdRequest::mutable_add_server() {
+  set_has_add_server();
+  if (add_server_ == NULL) add_server_ = new ::floyd::CmdRequest_AddServer;
+  return add_server_;
+}
+inline ::floyd::CmdRequest_AddServer* CmdRequest::release_add_server() {
+  clear_has_add_server();
+  ::floyd::CmdRequest_AddServer* temp = add_server_;
+  add_server_ = NULL;
+  return temp;
+}
+inline void CmdRequest::set_allocated_add_server(::floyd::CmdRequest_AddServer* add_server) {
+  delete add_server_;
+  add_server_ = add_server;
+  if (add_server) {
+    set_has_add_server();
+  } else {
+    clear_has_add_server();
+  }
+}
+
 // -------------------------------------------------------------------
 
 // CmdResponse_Kv
@@ -2958,35 +3216,6 @@ inline void CmdResponse_Kv::set_allocated_value(::std::string* value) {
     clear_has_value();
     value_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   }
-}
-
-// -------------------------------------------------------------------
-
-// CmdResponse_Kvs
-
-// repeated .floyd.CmdResponse.Kv kv = 1;
-inline int CmdResponse_Kvs::kv_size() const {
-  return kv_.size();
-}
-inline void CmdResponse_Kvs::clear_kv() {
-  kv_.Clear();
-}
-inline const ::floyd::CmdResponse_Kv& CmdResponse_Kvs::kv(int index) const {
-  return kv_.Get(index);
-}
-inline ::floyd::CmdResponse_Kv* CmdResponse_Kvs::mutable_kv(int index) {
-  return kv_.Mutable(index);
-}
-inline ::floyd::CmdResponse_Kv* CmdResponse_Kvs::add_kv() {
-  return kv_.Add();
-}
-inline const ::google::protobuf::RepeatedPtrField< ::floyd::CmdResponse_Kv >&
-CmdResponse_Kvs::kv() const {
-  return kv_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::floyd::CmdResponse_Kv >*
-CmdResponse_Kvs::mutable_kv() {
-  return &kv_;
 }
 
 // -------------------------------------------------------------------
@@ -3477,6 +3706,172 @@ inline void CmdResponse_ServerStatus::set_last_applied(::google::protobuf::uint6
 
 // -------------------------------------------------------------------
 
+// CmdResponse_AddServerResponse
+
+// required int32 status = 1;
+inline bool CmdResponse_AddServerResponse::has_status() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void CmdResponse_AddServerResponse::set_has_status() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void CmdResponse_AddServerResponse::clear_has_status() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void CmdResponse_AddServerResponse::clear_status() {
+  status_ = 0;
+  clear_has_status();
+}
+inline ::google::protobuf::int32 CmdResponse_AddServerResponse::status() const {
+  return status_;
+}
+inline void CmdResponse_AddServerResponse::set_status(::google::protobuf::int32 value) {
+  set_has_status();
+  status_ = value;
+}
+
+// required bytes leader_hint_ip = 2;
+inline bool CmdResponse_AddServerResponse::has_leader_hint_ip() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CmdResponse_AddServerResponse::set_has_leader_hint_ip() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CmdResponse_AddServerResponse::clear_has_leader_hint_ip() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CmdResponse_AddServerResponse::clear_leader_hint_ip() {
+  if (leader_hint_ip_ != &::google::protobuf::internal::kEmptyString) {
+    leader_hint_ip_->clear();
+  }
+  clear_has_leader_hint_ip();
+}
+inline const ::std::string& CmdResponse_AddServerResponse::leader_hint_ip() const {
+  return *leader_hint_ip_;
+}
+inline void CmdResponse_AddServerResponse::set_leader_hint_ip(const ::std::string& value) {
+  set_has_leader_hint_ip();
+  if (leader_hint_ip_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_ip_ = new ::std::string;
+  }
+  leader_hint_ip_->assign(value);
+}
+inline void CmdResponse_AddServerResponse::set_leader_hint_ip(const char* value) {
+  set_has_leader_hint_ip();
+  if (leader_hint_ip_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_ip_ = new ::std::string;
+  }
+  leader_hint_ip_->assign(value);
+}
+inline void CmdResponse_AddServerResponse::set_leader_hint_ip(const void* value, size_t size) {
+  set_has_leader_hint_ip();
+  if (leader_hint_ip_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_ip_ = new ::std::string;
+  }
+  leader_hint_ip_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CmdResponse_AddServerResponse::mutable_leader_hint_ip() {
+  set_has_leader_hint_ip();
+  if (leader_hint_ip_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_ip_ = new ::std::string;
+  }
+  return leader_hint_ip_;
+}
+inline ::std::string* CmdResponse_AddServerResponse::release_leader_hint_ip() {
+  clear_has_leader_hint_ip();
+  if (leader_hint_ip_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = leader_hint_ip_;
+    leader_hint_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CmdResponse_AddServerResponse::set_allocated_leader_hint_ip(::std::string* leader_hint_ip) {
+  if (leader_hint_ip_ != &::google::protobuf::internal::kEmptyString) {
+    delete leader_hint_ip_;
+  }
+  if (leader_hint_ip) {
+    set_has_leader_hint_ip();
+    leader_hint_ip_ = leader_hint_ip;
+  } else {
+    clear_has_leader_hint_ip();
+    leader_hint_ip_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required bytes leader_hint_port = 3;
+inline bool CmdResponse_AddServerResponse::has_leader_hint_port() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void CmdResponse_AddServerResponse::set_has_leader_hint_port() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void CmdResponse_AddServerResponse::clear_has_leader_hint_port() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void CmdResponse_AddServerResponse::clear_leader_hint_port() {
+  if (leader_hint_port_ != &::google::protobuf::internal::kEmptyString) {
+    leader_hint_port_->clear();
+  }
+  clear_has_leader_hint_port();
+}
+inline const ::std::string& CmdResponse_AddServerResponse::leader_hint_port() const {
+  return *leader_hint_port_;
+}
+inline void CmdResponse_AddServerResponse::set_leader_hint_port(const ::std::string& value) {
+  set_has_leader_hint_port();
+  if (leader_hint_port_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_port_ = new ::std::string;
+  }
+  leader_hint_port_->assign(value);
+}
+inline void CmdResponse_AddServerResponse::set_leader_hint_port(const char* value) {
+  set_has_leader_hint_port();
+  if (leader_hint_port_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_port_ = new ::std::string;
+  }
+  leader_hint_port_->assign(value);
+}
+inline void CmdResponse_AddServerResponse::set_leader_hint_port(const void* value, size_t size) {
+  set_has_leader_hint_port();
+  if (leader_hint_port_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_port_ = new ::std::string;
+  }
+  leader_hint_port_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* CmdResponse_AddServerResponse::mutable_leader_hint_port() {
+  set_has_leader_hint_port();
+  if (leader_hint_port_ == &::google::protobuf::internal::kEmptyString) {
+    leader_hint_port_ = new ::std::string;
+  }
+  return leader_hint_port_;
+}
+inline ::std::string* CmdResponse_AddServerResponse::release_leader_hint_port() {
+  clear_has_leader_hint_port();
+  if (leader_hint_port_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = leader_hint_port_;
+    leader_hint_port_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void CmdResponse_AddServerResponse::set_allocated_leader_hint_port(::std::string* leader_hint_port) {
+  if (leader_hint_port_ != &::google::protobuf::internal::kEmptyString) {
+    delete leader_hint_port_;
+  }
+  if (leader_hint_port) {
+    set_has_leader_hint_port();
+    leader_hint_port_ = leader_hint_port;
+  } else {
+    clear_has_leader_hint_port();
+    leader_hint_port_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
 // CmdResponse
 
 // required .floyd.Type type = 1;
@@ -3525,85 +3920,15 @@ inline void CmdResponse::set_code(::floyd::StatusCode value) {
   code_ = value;
 }
 
-// optional bytes msg = 3;
-inline bool CmdResponse::has_msg() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void CmdResponse::set_has_msg() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void CmdResponse::clear_has_msg() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void CmdResponse::clear_msg() {
-  if (msg_ != &::google::protobuf::internal::kEmptyString) {
-    msg_->clear();
-  }
-  clear_has_msg();
-}
-inline const ::std::string& CmdResponse::msg() const {
-  return *msg_;
-}
-inline void CmdResponse::set_msg(const ::std::string& value) {
-  set_has_msg();
-  if (msg_ == &::google::protobuf::internal::kEmptyString) {
-    msg_ = new ::std::string;
-  }
-  msg_->assign(value);
-}
-inline void CmdResponse::set_msg(const char* value) {
-  set_has_msg();
-  if (msg_ == &::google::protobuf::internal::kEmptyString) {
-    msg_ = new ::std::string;
-  }
-  msg_->assign(value);
-}
-inline void CmdResponse::set_msg(const void* value, size_t size) {
-  set_has_msg();
-  if (msg_ == &::google::protobuf::internal::kEmptyString) {
-    msg_ = new ::std::string;
-  }
-  msg_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* CmdResponse::mutable_msg() {
-  set_has_msg();
-  if (msg_ == &::google::protobuf::internal::kEmptyString) {
-    msg_ = new ::std::string;
-  }
-  return msg_;
-}
-inline ::std::string* CmdResponse::release_msg() {
-  clear_has_msg();
-  if (msg_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = msg_;
-    msg_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void CmdResponse::set_allocated_msg(::std::string* msg) {
-  if (msg_ != &::google::protobuf::internal::kEmptyString) {
-    delete msg_;
-  }
-  if (msg) {
-    set_has_msg();
-    msg_ = msg;
-  } else {
-    clear_has_msg();
-    msg_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
-}
-
 // optional .floyd.CmdResponse.Kv kv = 4;
 inline bool CmdResponse::has_kv() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void CmdResponse::set_has_kv() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void CmdResponse::clear_has_kv() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void CmdResponse::clear_kv() {
   if (kv_ != NULL) kv_->::floyd::CmdResponse_Kv::Clear();
@@ -3633,53 +3958,15 @@ inline void CmdResponse::set_allocated_kv(::floyd::CmdResponse_Kv* kv) {
   }
 }
 
-// optional .floyd.CmdResponse.Kvs kvs = 5;
-inline bool CmdResponse::has_kvs() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void CmdResponse::set_has_kvs() {
-  _has_bits_[0] |= 0x00000010u;
-}
-inline void CmdResponse::clear_has_kvs() {
-  _has_bits_[0] &= ~0x00000010u;
-}
-inline void CmdResponse::clear_kvs() {
-  if (kvs_ != NULL) kvs_->::floyd::CmdResponse_Kvs::Clear();
-  clear_has_kvs();
-}
-inline const ::floyd::CmdResponse_Kvs& CmdResponse::kvs() const {
-  return kvs_ != NULL ? *kvs_ : *default_instance_->kvs_;
-}
-inline ::floyd::CmdResponse_Kvs* CmdResponse::mutable_kvs() {
-  set_has_kvs();
-  if (kvs_ == NULL) kvs_ = new ::floyd::CmdResponse_Kvs;
-  return kvs_;
-}
-inline ::floyd::CmdResponse_Kvs* CmdResponse::release_kvs() {
-  clear_has_kvs();
-  ::floyd::CmdResponse_Kvs* temp = kvs_;
-  kvs_ = NULL;
-  return temp;
-}
-inline void CmdResponse::set_allocated_kvs(::floyd::CmdResponse_Kvs* kvs) {
-  delete kvs_;
-  kvs_ = kvs;
-  if (kvs) {
-    set_has_kvs();
-  } else {
-    clear_has_kvs();
-  }
-}
-
 // optional .floyd.CmdResponse.RequestVoteResponse request_vote_res = 6;
 inline bool CmdResponse::has_request_vote_res() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void CmdResponse::set_has_request_vote_res() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void CmdResponse::clear_has_request_vote_res() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void CmdResponse::clear_request_vote_res() {
   if (request_vote_res_ != NULL) request_vote_res_->::floyd::CmdResponse_RequestVoteResponse::Clear();
@@ -3711,13 +3998,13 @@ inline void CmdResponse::set_allocated_request_vote_res(::floyd::CmdResponse_Req
 
 // optional .floyd.CmdResponse.AppendEntriesResponse append_entries_res = 7;
 inline bool CmdResponse::has_append_entries_res() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void CmdResponse::set_has_append_entries_res() {
-  _has_bits_[0] |= 0x00000040u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void CmdResponse::clear_has_append_entries_res() {
-  _has_bits_[0] &= ~0x00000040u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void CmdResponse::clear_append_entries_res() {
   if (append_entries_res_ != NULL) append_entries_res_->::floyd::CmdResponse_AppendEntriesResponse::Clear();
@@ -3749,13 +4036,13 @@ inline void CmdResponse::set_allocated_append_entries_res(::floyd::CmdResponse_A
 
 // optional .floyd.CmdResponse.ServerStatus server_status = 8;
 inline bool CmdResponse::has_server_status() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
 inline void CmdResponse::set_has_server_status() {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000020u;
 }
 inline void CmdResponse::clear_has_server_status() {
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void CmdResponse::clear_server_status() {
   if (server_status_ != NULL) server_status_->::floyd::CmdResponse_ServerStatus::Clear();
@@ -3782,6 +4069,44 @@ inline void CmdResponse::set_allocated_server_status(::floyd::CmdResponse_Server
     set_has_server_status();
   } else {
     clear_has_server_status();
+  }
+}
+
+// optional .floyd.CmdResponse.AddServerResponse add_server_res = 9;
+inline bool CmdResponse::has_add_server_res() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void CmdResponse::set_has_add_server_res() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void CmdResponse::clear_has_add_server_res() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void CmdResponse::clear_add_server_res() {
+  if (add_server_res_ != NULL) add_server_res_->::floyd::CmdResponse_AddServerResponse::Clear();
+  clear_has_add_server_res();
+}
+inline const ::floyd::CmdResponse_AddServerResponse& CmdResponse::add_server_res() const {
+  return add_server_res_ != NULL ? *add_server_res_ : *default_instance_->add_server_res_;
+}
+inline ::floyd::CmdResponse_AddServerResponse* CmdResponse::mutable_add_server_res() {
+  set_has_add_server_res();
+  if (add_server_res_ == NULL) add_server_res_ = new ::floyd::CmdResponse_AddServerResponse;
+  return add_server_res_;
+}
+inline ::floyd::CmdResponse_AddServerResponse* CmdResponse::release_add_server_res() {
+  clear_has_add_server_res();
+  ::floyd::CmdResponse_AddServerResponse* temp = add_server_res_;
+  add_server_res_ = NULL;
+  return temp;
+}
+inline void CmdResponse::set_allocated_add_server_res(::floyd::CmdResponse_AddServerResponse* add_server_res) {
+  delete add_server_res_;
+  add_server_res_ = add_server_res;
+  if (add_server_res) {
+    set_has_add_server_res();
+  } else {
+    clear_has_add_server_res();
   }
 }
 

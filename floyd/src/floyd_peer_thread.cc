@@ -333,4 +333,15 @@ void Peer::AppendEntriesRPC() {
   return;
 }
 
+void Peer::AddAddServerTask() {
+  bg_thread_.Schedule(&AddServerRPCWrapper, this);
+}
+
+void Peer::AddServerRPCWrapper(void *arg) {
+  reinterpret_cast<Peer*>(arg)->AddServerRPC();
+}
+
+void Peer::AddServerRPC() {
+}
+
 }  // namespace floyd

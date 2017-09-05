@@ -409,6 +409,10 @@ bool FloydImpl::GetServerStatus(std::string* msg) {
   return true;
 }
 
+Status FloydImpl::AddServer(const std::string& new_server) {
+
+}
+
 Status FloydImpl::DoCommand(const CmdRequest& cmd, CmdResponse *response) {
   // Execute if is leader
   std::string leader_ip;
@@ -762,6 +766,10 @@ void FloydImpl::ReplyAppendEntries(const CmdRequest& request, CmdResponse* respo
       append_entries.port(), append_entries.prev_log_index(), append_entries.leader_commit(),
       append_entries.term());
   BuildAppendEntriesResponse(success, context_->current_term, raft_log_->GetLastLogIndex(), response);
+}
+
+void ReplyAddServer(const CmdRequest& request, CmdResponse* response) {
+
 }
 
 }  // namespace floyd

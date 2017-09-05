@@ -45,11 +45,12 @@ class FloydImpl : public Floyd  {
 
   Status Init();
 
-  virtual Status Write(const std::string& key, const std::string& value);
-  virtual Status DirtyWrite(const std::string& key, const std::string& value);
-  virtual Status Delete(const std::string& key);
-  virtual Status Read(const std::string& key, std::string* value);
-  virtual Status DirtyRead(const std::string& key, std::string* value);
+  virtual Status Write(const std::string& key, const std::string& value) override;
+  virtual Status DirtyWrite(const std::string& key, const std::string& value) override;
+  virtual Status Delete(const std::string& key) override;
+  virtual Status Read(const std::string& key, std::string* value) override;
+  virtual Status DirtyRead(const std::string& key, std::string* value) override;
+  virtual Status AddServer(const std::string& new_server) override;
 
   // return true if leader has been elected
   virtual bool GetLeader(std::string* ip_port);
@@ -91,17 +92,19 @@ class FloydImpl : public Floyd  {
 
   bool IsSelf(const std::string& ip_port);
 
-  Status DoCommand(const CmdRequest& cmd, CmdResponse *cmd_res);
-  Status ExecuteCommand(const CmdRequest& cmd, CmdResponse *cmd_res);
-  Status ReplyExecuteDirtyCommand(const CmdRequest& cmd, CmdResponse *cmd_res);
+  Status DoCommand(const CmdRequest& req, CmdResponse *res);
+  Status ExecuteCommand(const CmdRequest& req, CmdResponse *res);
+  Status ReplyExecuteDirtyCommand(const CmdRequest& req, CmdResponse *res);
   bool DoGetServerStatus(CmdResponse_ServerStatus* res);
   void GrantVote(uint64_t term, const std::string ip, int port);
 
   /*
    * these two are the response to the request vote and appendentries
    */
-  void ReplyRequestVote(const CmdRequest& cmd, CmdResponse* cmd_res);
-  void ReplyAppendEntries(const CmdRequest& cmd, CmdResponse* cmd_res);
+  void ReplyRequestVote(const CmdRequest& request, CmdResponse* response);
+  void ReplyAppendEntries(const CmdRequest& request, CmdResponse* response);
+
+  void ReplyAddServer(const CmdRequest& request, CmdResponse* response);
 
   bool AdvanceFollowerCommitIndex(uint64_t new_commit_index);
 
